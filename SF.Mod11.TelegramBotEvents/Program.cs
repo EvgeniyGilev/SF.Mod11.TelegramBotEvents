@@ -1,5 +1,6 @@
 ﻿using System;
 using Telegram.Bot;
+using Telegram.Bot.Args;
 
 namespace SF.Mod11.TelegramBotEvents
 {
@@ -9,13 +10,21 @@ namespace SF.Mod11.TelegramBotEvents
 
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            var bot = new BotWorker();
 
-            var botClient = new TelegramBotClient(BotCredentials.BotToken);
-            var me = botClient.GetMeAsync().Result;
-            Console.WriteLine("Привет! Меня зовут {0}.", me.FirstName);
+            bot.Inizalize();
+            bot.Start();
 
+            Console.WriteLine("Напишите stop для прекращения работы");
 
+            string command;
+            do
+            {
+                command = Console.ReadLine();
+
+            } while (command != "stop");
+
+            bot.Stop();
         }
     }
 }
