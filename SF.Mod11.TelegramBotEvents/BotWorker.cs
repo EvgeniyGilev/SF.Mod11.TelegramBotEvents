@@ -11,10 +11,12 @@ namespace SF.Mod11.TelegramBotEvents
     public class BotWorker
     {
         private ITelegramBotClient botClient;
+        private BotMessageLogic logic;
 
         public void Inizalize()
         {
             this.botClient = new TelegramBotClient(BotCredentials.BotToken);
+            logic = new BotMessageLogic(botClient);
         }
 
         public void Start()
