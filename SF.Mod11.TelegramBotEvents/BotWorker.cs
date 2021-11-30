@@ -32,12 +32,16 @@ namespace SF.Mod11.TelegramBotEvents
 
         private async void BotClient_OnMessage(object sender, MessageEventArgs e)
         {
-            if (e.Message.Text != null)
+            // if (e.Message.Text != null)
+            // {
+            //     Console.WriteLine($"Получено сообщение в чате: {e.Message.Chat.Id}.");
+            //
+            //     await botClient.SendTextMessageAsync(
+            //         chatId: e.Message.Chat, text: "Вы написали:\n" + e.Message.Text);
+            // }
+            if (e.Message != null)
             {
-                Console.WriteLine($"Получено сообщение в чате: {e.Message.Chat.Id}.");
-
-                await botClient.SendTextMessageAsync(
-                    chatId: e.Message.Chat, text: "Вы написали:\n" + e.Message.Text);
+                await logic.Response(e);
             }
         }
     }
