@@ -7,6 +7,9 @@ using SF.Mod11.TelegramBotEvents.interfaces;
 
 namespace SF.Mod11.TelegramBotEvents
 {
+    /// <summary>
+    /// хранилище команд
+    /// </summary>
     public class CommandParser
     {
         private List<IChatCommand> Command;
@@ -14,6 +17,18 @@ namespace SF.Mod11.TelegramBotEvents
         public CommandParser()
         {
             Command = new List<IChatCommand>();
+        }
+
+        /// <summary>
+        /// признак является ли команда текстовой
+        /// </summary>
+        /// <param name="message">The message.</param>
+        /// <returns>A bool.</returns>
+        public bool IsTextCommand(string message)
+        {
+            var command = Command.Find(x => x.CheckMessage(message));
+
+            return command is IChatTextCommand;
         }
     }
 }
