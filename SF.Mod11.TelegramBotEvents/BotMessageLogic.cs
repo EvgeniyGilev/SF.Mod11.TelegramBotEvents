@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Args;
 using Telegram.Bot.Types;
+using Telegram.Bot.Types.ReplyMarkups;
 
 namespace SF.Mod11.TelegramBotEvents
 {
@@ -37,8 +38,15 @@ namespace SF.Mod11.TelegramBotEvents
             var chat = chatList[Id];
 
             chat.AddMessage(e.Message);
-
-            await SendTextMessage(chat);
+            if (chat.GetLastMessage() == "/askme")
+            {
+                await SendTextWithKeyBoard(chat, "может...", ReturnKeyBoard());
+            }
+            else
+            {
+                await SendTextMessage(chat);
+            }
+            //await SendTextMessage(chat);
 
         }
         private async Task SendTextMessage(Conversation chat)
@@ -48,7 +56,35 @@ namespace SF.Mod11.TelegramBotEvents
             await botClient.SendTextMessageAsync(
                 chatId: chat.GetId(), text: text);
         }
-      
+        private async Task SendTextWithKeyBoard(Conversation chat, string text, InlineKeyboardMarkup keyboard)
+        {
+            await botClient.SendTextMessageAsync(
+                chatId: chat.GetId(), text: text, replyMarkup: keyboard);
+        }
+        public InlineKeyboardMarkup ReturnKeyBoard()
+        {
+            var buttonList = new List<InlineKeyboardButton>
+            {
+                new InlineKeyboardButton
+                {
+                    Text = "Пойдем спать?",
+                    CallbackData = "isSleep"
+                },
+
+                new InlineKeyboardButton
+                {
+                    Text = "Еще поработаем?",
+                    CallbackData = "isWork"
+                }
+            };
+
+            var keyboard = new InlineKeyboardMarkup(buttonList);
+
+            return keyboard;
+
+        }
+
+
     }
 
 }
