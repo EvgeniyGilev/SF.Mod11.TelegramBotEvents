@@ -13,6 +13,10 @@ namespace SF.Mod11.TelegramBotEvents
 
         private List<Message> telegramMessages;
 
+        // добавили коллекцию - ключ слово на русском языке
+        public Dictionary<string, Word> dictionary;
+
+
         public Conversation(Chat chat)
         {
             telegramChat = chat;
