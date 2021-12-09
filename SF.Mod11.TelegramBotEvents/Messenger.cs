@@ -18,7 +18,7 @@ namespace SF.Mod11.TelegramBotEvents
         {
             this.botClient = botClient;
             parser = new CommandParser();
-            parser.AddCommand(new AddWordCommand());
+            parser.AddCommand(new AddWordCommand(botClient));
             parser.AddCommand(new DeleteWordCommand());
             parser.AddCommand(new OffButtonCommand(botClient));
         }
@@ -69,21 +69,21 @@ namespace SF.Mod11.TelegramBotEvents
                 await SendTextMessage(chat, text);
             }
 
-             if (parser.IsButtonCommand(command))
-             {
-                 var keys = parser.GetKeyBoard(command);
-                 var text = parser.GetInformationalMeggase(command);
-                 parser.AddCallback(command, chat);
+            if (parser.IsButtonCommand(command))
+            {
+                var keys = parser.GetKeyBoard(command);
+                var text = parser.GetInformationalMeggase(command);
+                parser.AddCallback(command, chat);
             
-               await SendTextWithKeyBoard(chat, text, keys);
+                await SendTextWithKeyBoard(chat, text, keys);
             
-             }
+            }
 
-            // if (parser.IsAddingCommand(command))
-            // {
-            //     chat.IsAddingInProcess = true;
-            //     parser.StartAddingWord(command, chat);
-            // }
+             if (parser.IsAddingCommand(command))
+            {
+                 chat.IsAddingInProcess = true;
+                 parser.AddWord(command, chat);
+             }
         }
 
         private async Task SendTextMessage(Conversation chat, string text)

@@ -108,5 +108,21 @@ namespace SF.Mod11.TelegramBotEvents
             return command.InformationalMessage();
         }
 
+        //добавление слова
+
+        /// <summary>
+        /// Добавляем слово в словарь
+        /// </summary>
+        /// <param name="message">The message.</param>
+        /// <param name="chat">The chat.</param>
+        public void AddWord(string message, Conversation chat)
+        {
+            var command = Command.Find(x => x.CheckMessage(message)) as AddWordCommand;
+
+            //addingController.AddFirstState(chat);
+            command.DoAction(chat);
+
+        }
+
     }
 }

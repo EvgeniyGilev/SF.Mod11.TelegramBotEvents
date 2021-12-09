@@ -16,6 +16,8 @@ namespace SF.Mod11.TelegramBotEvents
         // добавили коллекцию - ключ слово на русском языке
         public Dictionary<string, Word> dictionary;
 
+        public bool IsAddingInProcess;
+
 
         public Conversation(Chat chat)
         {
