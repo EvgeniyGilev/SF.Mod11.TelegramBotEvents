@@ -38,18 +38,19 @@ namespace SF.Mod11.TelegramBotEvents
             var chat = chatList[Id];
 
             chat.AddMessage(e.Message);
-            if (chat.GetLastMessage() == "/askme")
-            {
-                await SendTextWithKeyBoard(chat, "может...", ReturnKeyBoard());
-            }
-            else
-            {
-                await SendTextMessage(chat);
-            }
-            //await SendTextMessage(chat);
+
+            await SendMessage(chat);
 
         }
-        private async Task SendTextMessage(Conversation chat)
+
+        private async Task SendMessage(Conversation chat)
+        {
+            await messanger.MakeAnswer(chat);
+
+        }
+
+        // поменяли логику
+        /*private async Task SendTextMessage(Conversation chat)
         {
             var text = messanger.CreateTextMessage(chat);
 
@@ -60,29 +61,7 @@ namespace SF.Mod11.TelegramBotEvents
         {
             await botClient.SendTextMessageAsync(
                 chatId: chat.GetId(), text: text, replyMarkup: keyboard);
-        }
-        public InlineKeyboardMarkup ReturnKeyBoard()
-        {
-            var buttonList = new List<InlineKeyboardButton>
-            {
-                new InlineKeyboardButton
-                {
-                    Text = "Пойдем спать?",
-                    CallbackData = "isSleep"
-                },
-
-                new InlineKeyboardButton
-                {
-                    Text = "Еще поработаем?",
-                    CallbackData = "isWork"
-                }
-            };
-
-            var keyboard = new InlineKeyboardMarkup(buttonList);
-
-            return keyboard;
-
-        }
+        }*/
 
 
     }

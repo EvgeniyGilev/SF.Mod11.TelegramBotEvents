@@ -22,29 +22,9 @@ namespace SF.Mod11.TelegramBotEvents
         public void Start()
         {
             botClient.OnMessage += BotClient_OnMessage;
-            botClient.OnCallbackQuery += Bot_Callback;
             botClient.StartReceiving();
         }
 
-        private async void Bot_Callback(object sender, CallbackQueryEventArgs e)
-        {
-            var text = "";
-
-            switch (e.CallbackQuery.Data)
-            {
-                case "isSleep":
-                    text = @"Пойдем, пойдем, я уже засыпаю..ZZZ-ZZ-ZZ-zzz-zz-z";
-                    break;
-                case "isWork":
-                    text = @"Давай поработаем!";
-                    break;
-                default:
-                    break;
-            }
-
-            await botClient.SendTextMessageAsync(e.CallbackQuery.Message.Chat.Id, text);
-            await botClient.AnswerCallbackQueryAsync(e.CallbackQuery.Id);
-        }
 
         public void Stop()
         {

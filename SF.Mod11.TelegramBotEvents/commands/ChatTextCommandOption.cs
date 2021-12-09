@@ -10,18 +10,19 @@ namespace SF.Mod11.TelegramBotEvents.commands
     /// <summary>
     /// команда с дополнительным текстом после команды
     /// </summary>
-    public abstract class ChatTextCommandOption : IChatCommand
+    public abstract class ChatTextCommandOption : AbstractCommand
+
     {
-        public string CommandText;
+        //public string CommandText;
 
         /// <summary>
         /// реализация интерфейса IChatCommand
         /// </summary>
         /// <param name="message">The message.</param>
         /// <returns>A bool.</returns>
-        public virtual bool CheckMessage(string message)
+        public override bool CheckMessage(string message)
         {
-            return CommandText == message;
+            return message.StartsWith(CommandText);
         }
 
         /// <summary>
