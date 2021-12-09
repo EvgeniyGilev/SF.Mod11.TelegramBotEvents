@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SF.Mod11.TelegramBotEvents.interfaces
 {
-    interface IChatCommand
+   public interface IChatCommand
     {
         bool CheckMessage(string message);
     }

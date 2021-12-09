@@ -19,7 +19,7 @@ namespace SF.Mod11.TelegramBotEvents
         private Dictionary<long, Conversation> chatList;
         public BotMessageLogic(ITelegramBotClient botClient)
         {
-            messanger = new Messenger();
+            messanger = new Messenger(botClient);
             chatList = new Dictionary<long,
                 Conversation>();
             this.botClient = botClient;

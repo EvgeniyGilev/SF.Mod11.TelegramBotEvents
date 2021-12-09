@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SF.Mod11.TelegramBotEvents.commands;
 using Telegram.Bot;
 using Telegram.Bot.Types.ReplyMarkups;
 
@@ -13,9 +14,18 @@ namespace SF.Mod11.TelegramBotEvents
         private CommandParser parser;
         private ITelegramBotClient botClient;
 
+        public Messenger(ITelegramBotClient botClient)
+        {
+            this.botClient = botClient;
+            parser = new CommandParser();
+            parser.AddCommand(new AddWordCommand());
+            parser.AddCommand(new DeleteWordCommand());
+            parser.AddCommand(new OffButtonCommand(botClient));
+        }
+
         //простая обработка команд в switch
-        /*
-        public string CreateTextMessage(Conversation chat)
+
+        /*public string CreateTextMessage(Conversation chat)
         {
             var text = "";
 
@@ -46,9 +56,8 @@ namespace SF.Mod11.TelegramBotEvents
             }
             else
             {
-                var text = CreateTextMessage();
-
-                await SendText(chat, text);
+                var text = "неверная команда";
+                await SendTextMessage(chat, text);
             }
         }
         public async Task ExecCommand(Conversation chat, string command)
@@ -57,25 +66,40 @@ namespace SF.Mod11.TelegramBotEvents
             {
                 var text = parser.GetMessageText(command, chat);
 
-                await SendText(chat, text);
+                await SendTextMessage(chat, text);
             }
 
-            if (parser.IsButtonCommand(command))
-            {
-                var keys = parser.GetKeyBoard(command);
-                var text = parser.GetInformationalMeggase(command);
-                parser.AddCallback(command, chat);
+             if (parser.IsButtonCommand(command))
+             {
+                 var keys = parser.GetKeyBoard(command);
+                 var text = parser.GetInformationalMeggase(command);
+                 parser.AddCallback(command, chat);
+            
+               await SendTextWithKeyBoard(chat, text, keys);
+            
+             }
 
-                await SendTextWithKeyBoard(chat, text, keys);
-
-            }
-
-            if (parser.IsAddingCommand(command))
-            {
-                chat.IsAddingInProcess = true;
-                parser.StartAddingWord(command, chat);
-            }
+            // if (parser.IsAddingCommand(command))
+            // {
+            //     chat.IsAddingInProcess = true;
+            //     parser.StartAddingWord(command, chat);
+            // }
         }
+
+        private async Task SendTextMessage(Conversation chat, string text)
+        {
+
+            await botClient.SendTextMessageAsync(
+                chatId: chat.GetId(),
+                text: text
+            );
+        }
+        private async Task SendTextWithKeyBoard(Conversation chat, string text, InlineKeyboardMarkup keyboard)
+        {
+            await botClient.SendTextMessageAsync(
+                chatId: chat.GetId(), text: text, replyMarkup: keyboard);
+        }
+
 
 
     }
