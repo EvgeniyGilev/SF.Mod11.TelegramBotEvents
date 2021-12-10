@@ -28,8 +28,9 @@ namespace SF.Mod11.TelegramBotEvents.commands
 
         public bool DoAction(Conversation chat)
         {
+            //хотелось вывод в html таблицу но ТГ это не умеет
 
-            //грубо запихаем все в таблицу html, без сериализации к такому виду
+            /*//грубо запихаем все в таблицу html, без сериализации к такому виду
             text = "<table><colgroup><col span=\"3\" style=\"background: LightCyan\"></colgroup><tr><th>Русский</th><th>Английский</th><th>Тема</th></tr><tr> ";
             if (chat.dictionary != null)
             {
@@ -44,6 +45,29 @@ namespace SF.Mod11.TelegramBotEvents.commands
             }
             else 
             return false;
+            */
+
+            //грубо запихаем все в таблицу html, без сериализации к такому виду
+            if (chat.dictionary != null)
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.AppendLine("|РУССКИЙ|АНГЛИЙСКИЙ|ТЕМАТИКА");
+                sb.AppendLine("______________________________");
+                foreach (Word p in chat.dictionary.Values)
+                {
+                   // text = text  + p.Russian + " " + p.English + " " + p.Theme  ;
+                    sb.AppendLine(" | "+p.Russian + " | " + p.English + " | " + p.Theme + " | ");
+                }
+
+                text = sb.ToString();
+
+                return true;
+            }
+            else
+                return false;
+
+                
+
         }
 
         public string ReturnText()
