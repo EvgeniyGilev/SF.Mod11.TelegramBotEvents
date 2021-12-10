@@ -20,7 +20,7 @@ namespace SF.Mod11.TelegramBotEvents.commands
 
             var text = ClearMessageFromCommand(message);
 
-            if (chat.dictionary.ContainsKey(text))
+            if (chat.dictionary?.ContainsKey(text) == true)
             {
                 chat.dictionary.Remove(text);
                 return true;

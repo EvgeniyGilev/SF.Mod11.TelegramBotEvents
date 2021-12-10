@@ -8,6 +8,6 @@ namespace SF.Mod11.TelegramBotEvents
 {
     public static class BotCredentials
     {
-        public static readonly string BotToken = "2131549515:AAEzRSrLYGfcX9kGN1cVbH6chzf6tsf0YgA";
+        public static readonly string BotToken = "2131549515:AAHcBvGzoHTYLwSr-9BvhqIH15clD3CSncg";
     }
 }
