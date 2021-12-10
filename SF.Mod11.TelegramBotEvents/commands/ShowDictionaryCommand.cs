@@ -29,14 +29,16 @@ namespace SF.Mod11.TelegramBotEvents.commands
         public bool DoAction(Conversation chat)
         {
 
-            //<table>
-            text = "--- СЛОВАРЬ: ---/r/n";
+            //грубо запихаем все в таблицу html, без сериализации к такому виду
+            text = "<table><colgroup><col span=\"3\" style=\"background: LightCyan\"></colgroup><tr><th>Русский</th><th>Английский</th><th>Тема</th></tr><tr> ";
             if (chat.dictionary != null)
             {
                 foreach (Word p in chat.dictionary.Values)
                 {
-                    text = text + p.Russian + " " + p.English + "" + p.Theme + "/r/n";
+                    text = text + "<td>" + p.Russian + "</td><td>" + p.English + "</td><td>" + p.Theme + "</td>";
                 }
+                text = text + "</tr></ table ></ table>";
+
 
                 return true;
             }

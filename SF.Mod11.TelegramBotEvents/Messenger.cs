@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SF.Mod11.TelegramBotEvents.commands;
 using Telegram.Bot;
+using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
 
 namespace SF.Mod11.TelegramBotEvents
@@ -105,8 +106,21 @@ namespace SF.Mod11.TelegramBotEvents
                  chat.IsAddingInProcess = true;
                  parser.AddWord(command, chat);
              }
+
+             if (parser.IsDictionaryCommand(command))
+             {
+                 await SendTextMessageHtml(chat, "Словарь успешно выведен");
+            }
         }
 
+        private async Task SendTextMessageHtml(Conversation chat, string text)
+        {
+
+            await botClient.SendTextMessageAsync(
+                chatId: chat.GetId(),
+                text: text,  ParseMode.Html
+            );
+        }
         private async Task SendTextMessage(Conversation chat, string text)
         {
 
