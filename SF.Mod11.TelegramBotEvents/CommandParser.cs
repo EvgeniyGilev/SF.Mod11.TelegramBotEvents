@@ -98,7 +98,7 @@ namespace SF.Mod11.TelegramBotEvents
             {
                 if (!(command as IChatTextCommandWithAction).DoAction(chat))
                 {
-                    return "Ошибка выполнения команды!";
+                    return "Ошибка выполнения команды! Проверьте, что добавили слово для команды";
                 };
             }
 

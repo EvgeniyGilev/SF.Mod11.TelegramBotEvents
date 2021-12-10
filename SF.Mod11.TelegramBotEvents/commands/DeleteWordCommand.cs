@@ -16,14 +16,25 @@ namespace SF.Mod11.TelegramBotEvents.commands
 
         public bool DoAction(Conversation chat)
         {
+            try
+            {
+
+         
             var message = chat.GetLastMessage();
 
             var text = ClearMessageFromCommand(message);
-
+            
             if (chat.dictionary?.ContainsKey(text) == true)
             {
                 chat.dictionary.Remove(text);
                 return true;
+            }
+
+            
+            }
+            catch (Exception e)
+            {
+                return false;
             }
 
             return false;
