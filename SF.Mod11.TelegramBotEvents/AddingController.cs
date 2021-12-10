@@ -7,6 +7,7 @@ namespace SF.Mod11.TelegramBotEvents
     public class AddingController
     {
         private Dictionary<long, AddingState> ChatAdding;
+        
 
         public AddingController()
         {

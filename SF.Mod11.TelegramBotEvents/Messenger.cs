@@ -21,6 +21,8 @@ namespace SF.Mod11.TelegramBotEvents
             parser.AddCommand(new AddWordCommand(botClient));
             parser.AddCommand(new DeleteWordCommand());
             parser.AddCommand(new OffButtonCommand(botClient));
+            parser.AddCommand(new ShowDictionaryCommand(botClient));
+            
         }
 
         //простая обработка команд в switch
@@ -50,6 +52,24 @@ namespace SF.Mod11.TelegramBotEvents
         {
             var lastmessage = chat.GetLastMessage();
 
+            // if (parser.IsMessageCommand(lastmessage))
+            // {
+            //     await ExecCommand(chat, lastmessage);
+            // }
+            // else
+            // {
+            //     var text = "неверная команда";
+            //     await SendTextMessage(chat, text);
+            // }
+
+
+            if (chat.IsAddingInProcess)
+            {
+                parser.NextStage(lastmessage, chat);
+
+                return;
+            }
+             
             if (parser.IsMessageCommand(lastmessage))
             {
                 await ExecCommand(chat, lastmessage);
@@ -59,6 +79,7 @@ namespace SF.Mod11.TelegramBotEvents
                 var text = "неверная команда";
                 await SendTextMessage(chat, text);
             }
+
         }
         public async Task ExecCommand(Conversation chat, string command)
         {

@@ -24,7 +24,7 @@ namespace SF.Mod11.TelegramBotEvents.commands
             dictionary = new Dictionary<long, Word>();
         }
 
-        public async void DoAction(Conversation chat)
+        public async void StartAddWordAction(Conversation chat)
         {
             //var message = chat.GetLastMessage();
             dictionary.Add(chat.GetId(), new Word());
@@ -35,10 +35,40 @@ namespace SF.Mod11.TelegramBotEvents.commands
 
         }
 
-        public string ReturnText()
+        public async void DoForStageAsync(AddingState addingState, Conversation chat, string message)
         {
-            return "Слово успешно добавлено!";
+            var word = dictionary[chat.GetId()];
+            var text = "";
+
+            switch (addingState)
+            {
+                case AddingState.Russian:
+                    word.Russian = message;
+
+                    text = "Введите английское значение слова";
+                    break;
+
+                case AddingState.English:
+                    word.English = message;
+
+                    text = "Введите тематику";
+                    break;
+
+                case AddingState.Theme:
+                    word.Theme = message;
+
+                    text = "Успешно! Слово " + word.English + " добавлено в словарь. ";
+
+                    chat.dictionary.Add(word.Russian, word);
+
+                    dictionary.Remove(chat.GetId());
+                    break;
+            }
+
+
+            await SendCommandText(text, chat.GetId());
         }
+
         private async Task SendCommandText(string text, long chat)
         {
             await botClient.SendTextMessageAsync(chatId: chat, text: text);

@@ -15,10 +15,12 @@ namespace SF.Mod11.TelegramBotEvents
     public class CommandParser
     {
         private List<IChatCommand> Command;
+        private AddingController addingController;
 
         public CommandParser()
         {
             Command = new List<IChatCommand>();
+            addingController = new AddingController();
         }
 
         /// <summary>
@@ -119,10 +121,20 @@ namespace SF.Mod11.TelegramBotEvents
         {
             var command = Command.Find(x => x.CheckMessage(message)) as AddWordCommand;
 
-            //addingController.AddFirstState(chat);
-            command.DoAction(chat);
+            addingController.AddFirstState(chat);
+            command.StartAddWordAction(chat);
 
         }
+        public void NextStage(string message, Conversation chat)
+        {
+            var command = Command.Find(x => x is AddWordCommand) as AddWordCommand;
+
+            command.DoForStageAsync(addingController.GetStage(chat), chat, message);
+
+            addingController.NextStage(message, chat);
+
+        }
+
 
     }
 }
