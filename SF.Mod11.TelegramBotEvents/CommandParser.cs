@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SF.Mod11.TelegramBotEvents.commands;
-using SF.Mod11.TelegramBotEvents.interfaces;
+using SF.Mod11.TelegramBotEvents.Commands;
+using SF.Mod11.TelegramBotEvents.Interfaces;
 using Telegram.Bot.Types.ReplyMarkups;
 
 namespace SF.Mod11.TelegramBotEvents
@@ -14,12 +14,15 @@ namespace SF.Mod11.TelegramBotEvents
     /// </summary>
     public class CommandParser
     {
-        private List<IChatCommand> Command;
+        private List<IChatCommand> command;
         private AddingController addingController;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CommandParser"/> class.
+        /// </summary>
         public CommandParser()
         {
-            Command = new List<IChatCommand>();
+            command = new List<IChatCommand>();
             addingController = new AddingController();
         }
 
@@ -29,8 +32,9 @@ namespace SF.Mod11.TelegramBotEvents
         /// <param name="chatCommand">The chat command.</param>
         public void AddCommand(IChatCommand chatCommand)
         {
-            Command.Add(chatCommand);
+            command.Add(chatCommand);
         }
+
         /// <summary>
         /// признак является ли команда текстовой
         /// </summary>
@@ -38,7 +42,7 @@ namespace SF.Mod11.TelegramBotEvents
         /// <returns>A bool.</returns>
         public bool IsTextCommand(string message)
         {
-            var command = Command.Find(x => x.CheckMessage(message));
+            var command = this.command.Find(x => x.CheckMessage(message));
 
             return command is IChatTextCommand;
         }
@@ -50,7 +54,7 @@ namespace SF.Mod11.TelegramBotEvents
         /// <returns>A bool.</returns>
         public bool IsMessageCommand(string message)
         {
-            return Command.Exists(x => x.CheckMessage(message));
+            return command.Exists(x => x.CheckMessage(message));
         }
 
         /// <summary>
@@ -60,7 +64,7 @@ namespace SF.Mod11.TelegramBotEvents
         /// <returns>A bool.</returns>
         public bool IsButtonCommand(string message)
         {
-            var command = Command.Find(x => x.CheckMessage(message));
+            var command = this.command.Find(x => x.CheckMessage(message));
 
             return command is IChatButtonCommand;
         }
@@ -72,7 +76,7 @@ namespace SF.Mod11.TelegramBotEvents
         /// <returns>A bool.</returns>
         public bool IsAddingCommand(string message)
         {
-            var command = Command.Find(x => x.CheckMessage(message));
+            var command = this.command.Find(x => x.CheckMessage(message));
 
             return command is AddWordCommand;
         }
@@ -84,46 +88,67 @@ namespace SF.Mod11.TelegramBotEvents
         /// <returns>A bool.</returns>
         public bool IsDictionaryCommand(string message)
         {
-            var command = Command.Find(x => x.CheckMessage(message));
+            var command = this.command.Find(x => x.CheckMessage(message));
 
             return command is ShowDictionaryCommand;
         }
 
-
+        /// <summary>
+        /// Получаем введенный пользователем текст команды иди команды и параметра и обрабатываем
+        /// </summary>
+        /// <param name="message">The message.</param>
+        /// <param name="chat">The chat.</param>
+        /// <returns>A string.</returns>
         public string GetMessageText(string message, Conversation chat)
         {
-            var command = Command.Find(x => x.CheckMessage(message)) as IChatTextCommand;
+            var command = this.command.Find(x => x.CheckMessage(message)) as IChatTextCommand;
 
             if (command is IChatTextCommandWithAction)
             {
                 if (!(command as IChatTextCommandWithAction).DoAction(chat))
                 {
                     return "Ошибка выполнения команды! Проверьте, что добавили слово для команды";
-                };
+                }
             }
 
             return command.ReturnText();
         }
-        //обработка кнопок
+        //// обработка кнопок
+
+        /// <summary>
+        /// Adds the callback.
+        /// </summary>
+        /// <param name="message">The message.</param>
+        /// <param name="chat">The chat.</param>
         public void AddCallback(string message, Conversation chat)
         {
-            var command = Command.Find(x => x.CheckMessage(message)) as IChatButtonCommand;
+            var command = this.command.Find(x => x.CheckMessage(message)) as IChatButtonCommand;
             command.AddCallBack(chat);
         }
+
+        /// <summary>
+        /// выводим кнопки
+        /// </summary>
+        /// <param name="message">The message.</param>
+        /// <returns>An InlineKeyboardMarkup.</returns>
         public InlineKeyboardMarkup GetKeyBoard(string message)
         {
-            var command = Command.Find(x => x.CheckMessage(message)) as IChatButtonCommand;
+            var command = this.command.Find(x => x.CheckMessage(message)) as IChatButtonCommand;
 
             return command.ReturnKeyBoard();
         }
+
+        /// <summary>
+        /// Информационное сообщение к кнопкам
+        /// </summary>
+        /// <param name="message">The message.</param>
+        /// <returns>A string.</returns>
         public string GetInformationalMeggase(string message)
         {
-            var command = Command.Find(x => x.CheckMessage(message)) as IChatButtonCommand;
+            var command = this.command.Find(x => x.CheckMessage(message)) as IChatButtonCommand;
 
             return command.InformationalMessage();
         }
-
-        //добавление слова
 
         /// <summary>
         /// Добавляем слово в словарь
@@ -132,22 +157,24 @@ namespace SF.Mod11.TelegramBotEvents
         /// <param name="chat">The chat.</param>
         public void AddWord(string message, Conversation chat)
         {
-            var command = Command.Find(x => x.CheckMessage(message)) as AddWordCommand;
+            var command = this.command.Find(x => x.CheckMessage(message)) as AddWordCommand;
 
             addingController.AddFirstState(chat);
             command.StartAddWordAction(chat);
-
         }
+
+        /// <summary>
+        /// Следующий шаг добавления слова в словарь
+        /// </summary>
+        /// <param name="message">The message.</param>
+        /// <param name="chat">The chat.</param>
         public void NextStage(string message, Conversation chat)
         {
-            var command = Command.Find(x => x is AddWordCommand) as AddWordCommand;
+            var command = this.command.Find(x => x is AddWordCommand) as AddWordCommand;
 
             command.DoForStageAsync(addingController.GetStage(chat), chat, message);
 
             addingController.NextStage(message, chat);
-
         }
-
-
     }
 }

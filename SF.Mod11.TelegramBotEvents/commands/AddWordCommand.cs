@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SF.Mod11.TelegramBotEvents.interfaces;
+using SF.Mod11.TelegramBotEvents.Interfaces;
 using Telegram.Bot;
 
-namespace SF.Mod11.TelegramBotEvents.commands
+namespace SF.Mod11.TelegramBotEvents.Commands
 {
     /// <summary>
     /// Команда для добавления слова в словарь
@@ -16,29 +16,40 @@ namespace SF.Mod11.TelegramBotEvents.commands
         private ITelegramBotClient botClient;
 
         private Dictionary<long, Word> dictionary;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AddWordCommand"/> class.
+        /// </summary>
+        /// <param name="botClient">The bot client.</param>
         public AddWordCommand(ITelegramBotClient botClient)
         {
-            CommandText = "/addword";
+            СommandText = "/addword";
             this.botClient = botClient;
 
             dictionary = new Dictionary<long, Word>();
         }
 
+        /// <summary>
+        /// Начало добавления слова в словарь
+        /// </summary>
+        /// <param name="chat">The chat.</param>
         public async void StartAddWordAction(Conversation chat)
         {
-            //var message = chat.GetLastMessage();
             dictionary.Add(chat.GetId(), new Word());
             var text = "Введите слово на русском";
             await SendCommandText(text, chat.GetId());
-
-            // здесь надо реализовать логику добавления слова
-
         }
 
+        /// <summary>
+        /// Последовательная обработка ввода пользователя и вывод подсказок
+        /// </summary>
+        /// <param name="addingState">The adding state.</param>
+        /// <param name="chat">The chat.</param>
+        /// <param name="message">The message.</param>
         public async void DoForStageAsync(AddingState addingState, Conversation chat, string message)
         {
             var word = dictionary[chat.GetId()];
-            var text = "";
+            var text = string.Empty;
 
             switch (addingState)
             {
@@ -65,15 +76,18 @@ namespace SF.Mod11.TelegramBotEvents.commands
                     break;
             }
 
-
             await SendCommandText(text, chat.GetId());
         }
 
+        /// <summary>
+        /// Возвращаем ответ
+        /// </summary>
+        /// <param name="text">The text.</param>
+        /// <param name="chat">The chat.</param>
+        /// <returns>A Task.</returns>
         private async Task SendCommandText(string text, long chat)
         {
             await botClient.SendTextMessageAsync(chatId: chat, text: text);
         }
-
-
     }
 }

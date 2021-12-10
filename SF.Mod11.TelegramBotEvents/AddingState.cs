@@ -11,9 +11,24 @@ namespace SF.Mod11.TelegramBotEvents
     /// </summary>
     public enum AddingState
     {
+        /// <summary>
+        /// добавляем слово на русском, начальное состояние
+        /// </summary>
         Russian,
+
+        /// <summary>
+        /// добавляем слово на английском
+        /// </summary>
         English,
+
+        /// <summary>
+        /// добавляем тематику
+        /// </summary>
         Theme,
+
+        /// <summary>
+        /// завершение добавления, конечное состояние
+        /// </summary>
         Finish
     }
 }

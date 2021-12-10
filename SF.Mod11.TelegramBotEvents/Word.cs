@@ -11,8 +11,19 @@ namespace SF.Mod11.TelegramBotEvents
     /// </summary>
     public class Word
     {
+        /// <summary>
+        /// Слово на Английском
+        /// </summary>
         public string English { get; set; }
+
+        /// <summary>
+        /// Слово на Русском
+        /// </summary>
         public string Russian { get; set; }
+
+        /// <summary>
+        /// тематика слова
+        /// </summary>
         public string Theme { get; set; }
     }
 }

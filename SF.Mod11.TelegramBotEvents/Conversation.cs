@@ -47,6 +47,6 @@ namespace SF.Mod11.TelegramBotEvents
         }
         //должно ли отрабатывать при первом сообщении?
         public string GetLastMessage() => telegramMessages[telegramMessages.Count - 1].Text;
-      
+
     }
 }

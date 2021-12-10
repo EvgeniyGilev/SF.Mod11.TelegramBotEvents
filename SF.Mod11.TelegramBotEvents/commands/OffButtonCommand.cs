@@ -3,36 +3,56 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SF.Mod11.TelegramBotEvents.interfaces;
+using SF.Mod11.TelegramBotEvents.Interfaces;
 using Telegram.Bot;
 using Telegram.Bot.Args;
 using Telegram.Bot.Types.ReplyMarkups;
 
-namespace SF.Mod11.TelegramBotEvents.commands
+namespace SF.Mod11.TelegramBotEvents.Commands
 {
+    /// <summary>
+    /// Команда пример с кнопками
+    /// </summary>
     public class OffButtonCommand : AbstractCommand, IChatButtonCommand
     {
         ITelegramBotClient botClient;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OffButtonCommand"/> class.
+        /// </summary>
+        /// <param name="botClient">The bot client.</param>
         public OffButtonCommand(ITelegramBotClient botClient)
         {
             this.botClient = botClient;
-            CommandText = "/askme";
+            СommandText = "/askme";
         }
 
+        /// <summary>
+        /// Подписываемся на событие
+        /// </summary>
+        /// <param name="chat">The chat.</param>
         public void AddCallBack(Conversation chat)
         {
             botClient.OnCallbackQuery += Bot_Callback;
         }
 
+        /// <summary>
+        /// Informationals the message.
+        /// </summary>
+        /// <returns>A string.</returns>
         public string InformationalMessage()
         {
             return "а может... ";
         }
 
+        /// <summary>
+        /// Ответ на нажатие кнопки пользователя
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The e.</param>
         private async void Bot_Callback(object sender, CallbackQueryEventArgs e)
         {
-            var text = "";
+            var text = string.Empty;
 
             switch (e.CallbackQuery.Data)
             {
@@ -50,6 +70,10 @@ namespace SF.Mod11.TelegramBotEvents.commands
             await botClient.AnswerCallbackQueryAsync(e.CallbackQuery.Id);
         }
 
+        /// <summary>
+        /// Returns the key board.
+        /// </summary>
+        /// <returns>An InlineKeyboardMarkup.</returns>
         public InlineKeyboardMarkup ReturnKeyBoard()
         {
             var buttonList = new List<InlineKeyboardButton>

@@ -8,38 +8,47 @@ using Telegram.Bot.Args;
 
 namespace SF.Mod11.TelegramBotEvents
 {
+    /// <summary>
+    /// Класс отвечает за логику работы всего бота
+    /// </summary>
     public class BotWorker
     {
         private ITelegramBotClient botClient;
         private BotMessageLogic logic;
 
-        public void Inizalize()
+        /// <summary>
+        /// инициализация бота
+        /// </summary>
+        public void Initialize()
         {
             this.botClient = new TelegramBotClient(BotCredentials.BotToken);
             logic = new BotMessageLogic(botClient);
         }
 
+        /// <summary>
+        /// Старт обработки сообщений
+        /// </summary>
         public void Start()
         {
             botClient.OnMessage += BotClient_OnMessage;
             botClient.StartReceiving();
         }
 
-
+        /// <summary>
+        /// остановка обработки сообщений
+        /// </summary>
         public void Stop()
         {
             botClient.StopReceiving();
         }
 
+        /// <summary>
+        /// обработчик сообщений
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The e.</param>
         private async void BotClient_OnMessage(object sender, MessageEventArgs e)
         {
-            // if (e.Message.Text != null)
-            // {
-            //     Console.WriteLine($"Получено сообщение в чате: {e.Message.Chat.Id}.");
-            //
-            //     await botClient.SendTextMessageAsync(
-            //         chatId: e.Message.Chat, text: "Вы написали:\n" + e.Message.Text);
-            // }
             if (e.Message != null)
             {
                 await logic.Response(e);

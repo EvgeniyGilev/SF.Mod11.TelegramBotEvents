@@ -10,60 +10,58 @@ using Telegram.Bot.Types.ReplyMarkups;
 
 namespace SF.Mod11.TelegramBotEvents
 {
+    /// <summary>
+    /// Класс отвечающий за основную логику сообщений
+    /// </summary>
     public class BotMessageLogic
     {
-
         private Messenger messanger;
         private ITelegramBotClient botClient;
 
         private Dictionary<long, Conversation> chatList;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BotMessageLogic"/> class.
+        /// </summary>
+        /// <param name="botClient">The bot client.</param>
         public BotMessageLogic(ITelegramBotClient botClient)
         {
             messanger = new Messenger(botClient);
-            chatList = new Dictionary<long,
-                Conversation>();
+            chatList = new Dictionary<long, Conversation>();
             this.botClient = botClient;
         }
+
+        /// <summary>
+        /// базовый ответ
+        /// </summary>
+        /// <param name="e">The e.</param>
+        /// <returns>A Task.</returns>
         public async Task Response(MessageEventArgs e)
         {
-            var Id = e.Message.Chat.Id;
+            var id = e.Message.Chat.Id;
 
-            if (!chatList.ContainsKey(Id))
+            if (!chatList.ContainsKey(id))
             {
                 var newchat = new Conversation(e.Message.Chat);
 
-                chatList.Add(Id, newchat);
+                chatList.Add(id, newchat);
             }
 
-            var chat = chatList[Id];
+            var chat = chatList[id];
 
             chat.AddMessage(e.Message);
 
             await SendMessage(chat);
-
         }
 
+        /// <summary>
+        /// Базовый запрос
+        /// </summary>
+        /// <param name="chat">The chat.</param>
+        /// <returns>A Task.</returns>
         private async Task SendMessage(Conversation chat)
         {
             await messanger.MakeAnswer(chat);
-
         }
-
-        // поменяли логику
-        /*private async Task SendTextMessage(Conversation chat)
-        {
-            var text = messanger.CreateTextMessage(chat);
-
-            await botClient.SendTextMessageAsync(
-                chatId: chat.GetId(), text: text);
-        }
-        private async Task SendTextWithKeyBoard(Conversation chat, string text, InlineKeyboardMarkup keyboard)
-        {
-            await botClient.SendTextMessageAsync(
-                chatId: chat.GetId(), text: text, replyMarkup: keyboard);
-        }*/
-
-
     }
-
 }

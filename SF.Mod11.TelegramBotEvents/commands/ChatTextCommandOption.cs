@@ -3,26 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SF.Mod11.TelegramBotEvents.interfaces;
+using SF.Mod11.TelegramBotEvents.Interfaces;
 
-namespace SF.Mod11.TelegramBotEvents.commands
+namespace SF.Mod11.TelegramBotEvents.Commands
 {
     /// <summary>
     /// команда с дополнительным текстом после команды
     /// </summary>
     public abstract class ChatTextCommandOption : AbstractCommand
-
     {
-        //public string CommandText;
-
         /// <summary>
-        /// реализация интерфейса IChatCommand
+        /// Абстрактный класс команда с параметром
         /// </summary>
         /// <param name="message">The message.</param>
         /// <returns>A bool.</returns>
         public override bool CheckMessage(string message)
         {
-            return message.StartsWith(CommandText);
+            return message.StartsWith(СommandText);
         }
 
         /// <summary>
@@ -33,8 +30,7 @@ namespace SF.Mod11.TelegramBotEvents.commands
         public string ClearMessageFromCommand(string message)
         {
             // подстрока с учетом пробела
-            return message.Substring(CommandText.Length + 1);
+            return message.Substring(СommandText.Length + 1);
         }
-
     }
 }

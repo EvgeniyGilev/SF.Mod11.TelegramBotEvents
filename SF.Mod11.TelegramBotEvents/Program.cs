@@ -6,13 +6,11 @@ namespace SF.Mod11.TelegramBotEvents
 {
     class Program
     {
-        static ITelegramBotClient botClient;
-
         static void Main(string[] args)
         {
             var bot = new BotWorker();
 
-            bot.Inizalize();
+            bot.Initialize();
             bot.Start();
 
             Console.WriteLine("Напишите stop для прекращения работы");
