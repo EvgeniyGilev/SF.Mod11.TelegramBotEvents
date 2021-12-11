@@ -7,30 +7,50 @@ using Telegram.Bot.Types;
 
 namespace SF.Mod11.TelegramBotEvents
 {
+    /// <summary>
+    /// класс представляет собой объект чата
+    /// </summary>
     public class Conversation
     {
+        // добавили коллекцию - ключ слово на русском языке
+        public Dictionary<string, Word> Dictionary;
+
+        public bool IsAddingInProcess;
+
         private Chat telegramChat;
 
         private List<Message> telegramMessages;
 
-        // добавили коллекцию - ключ слово на русском языке
-        public Dictionary<string, Word> dictionary;
-
-        public bool IsAddingInProcess;
-
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Conversation"/> class.
+        /// </summary>
+        /// <param name="chat">The chat.</param>
         public Conversation(Chat chat)
         {
             telegramChat = chat;
             telegramMessages = new List<Message>();
-            dictionary = new Dictionary<string, Word>();
+            Dictionary = new Dictionary<string, Word>();
         }
+
+        /// <summary>
+        /// Сохраняем сообщение в telegramMessages
+        /// </summary>
+        /// <param name="message">The message.</param>
         public void AddMessage(Message message)
         {
             telegramMessages.Add(message);
         }
+
+        /// <summary>
+        /// Gets the id.
+        /// </summary>
+        /// <returns>A long.</returns>
         public long GetId() => telegramChat.Id;
 
+        /// <summary>
+        /// метод возврата всех текстовых сообщений
+        /// </summary>
+        /// <returns>A list of string.</returns>
         public List<string> GetTextMessages()
         {
             var textMessages = new List<string>();
@@ -45,8 +65,11 @@ namespace SF.Mod11.TelegramBotEvents
 
             return textMessages;
         }
-        //должно ли отрабатывать при первом сообщении?
-        public string GetLastMessage() => telegramMessages[telegramMessages.Count - 1].Text;
 
+        /// <summary>
+        /// Gets the last message.
+        /// </summary>
+        /// <returns>A string.</returns>
+        public string GetLastMessage() => telegramMessages[telegramMessages.Count - 1].Text;
     }
 }

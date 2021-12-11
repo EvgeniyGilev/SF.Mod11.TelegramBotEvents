@@ -15,7 +15,7 @@ namespace SF.Mod11.TelegramBotEvents.Commands
     /// </summary>
     public class OffButtonCommand : AbstractCommand, IChatButtonCommand
     {
-        ITelegramBotClient botClient;
+        private ITelegramBotClient botClient;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="OffButtonCommand"/> class.
@@ -46,31 +46,6 @@ namespace SF.Mod11.TelegramBotEvents.Commands
         }
 
         /// <summary>
-        /// Ответ на нажатие кнопки пользователя
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="e">The e.</param>
-        private async void Bot_Callback(object sender, CallbackQueryEventArgs e)
-        {
-            var text = string.Empty;
-
-            switch (e.CallbackQuery.Data)
-            {
-                case "isSleep":
-                    text = @"Пойдем, пойдем, я уже засыпаю..ZZZ-ZZ-ZZ-zzz-zz-z";
-                    break;
-                case "isWork":
-                    text = @"Давай поработаем!";
-                    break;
-                default:
-                    break;
-            }
-
-            await botClient.SendTextMessageAsync(e.CallbackQuery.Message.Chat.Id, text);
-            await botClient.AnswerCallbackQueryAsync(e.CallbackQuery.Id);
-        }
-
-        /// <summary>
         /// Returns the key board.
         /// </summary>
         /// <returns>An InlineKeyboardMarkup.</returns>
@@ -94,6 +69,31 @@ namespace SF.Mod11.TelegramBotEvents.Commands
             var keyboard = new InlineKeyboardMarkup(buttonList);
 
             return keyboard;
+        }
+
+        /// <summary>
+        /// Ответ на нажатие кнопки пользователя
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The e.</param>
+        private async void Bot_Callback(object sender, CallbackQueryEventArgs e)
+        {
+            var text = string.Empty;
+
+            switch (e.CallbackQuery.Data)
+            {
+                case "isSleep":
+                    text = @"Пойдем, пойдем, я уже засыпаю..ZZZ-ZZ-ZZ-zzz-zz-z";
+                    break;
+                case "isWork":
+                    text = @"Давай поработаем!";
+                    break;
+                default:
+                    break;
+            }
+
+            await botClient.SendTextMessageAsync(e.CallbackQuery.Message.Chat.Id, text);
+            await botClient.AnswerCallbackQueryAsync(e.CallbackQuery.Id);
         }
     }
 }

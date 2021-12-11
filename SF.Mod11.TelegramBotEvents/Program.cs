@@ -4,8 +4,15 @@ using Telegram.Bot.Args;
 
 namespace SF.Mod11.TelegramBotEvents
 {
+    /// <summary>
+    /// The program.
+    /// </summary>
     class Program
     {
+        /// <summary>
+        /// Main program.
+        /// </summary>
+        /// <param name="args">The args.</param>
         static void Main(string[] args)
         {
             var bot = new BotWorker();
@@ -19,8 +26,8 @@ namespace SF.Mod11.TelegramBotEvents
             do
             {
                 command = Console.ReadLine();
-
-            } while (command != "stop");
+            } 
+            while (command != "stop");
 
             bot.Stop();
         }

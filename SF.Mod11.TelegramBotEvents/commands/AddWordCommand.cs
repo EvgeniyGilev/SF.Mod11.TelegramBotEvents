@@ -70,7 +70,7 @@ namespace SF.Mod11.TelegramBotEvents.Commands
 
                     text = "Успешно! Слово " + word.English + " добавлено в словарь. ";
 
-                    chat.dictionary.Add(word.Russian, word);
+                    chat.Dictionary.Add(word.Russian, word);
 
                     dictionary.Remove(chat.GetId());
                     break;

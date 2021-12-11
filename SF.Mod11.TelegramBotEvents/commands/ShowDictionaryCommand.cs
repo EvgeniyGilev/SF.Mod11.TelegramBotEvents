@@ -14,10 +14,8 @@ namespace SF.Mod11.TelegramBotEvents.Commands
     /// </summary>
     public class ShowDictionaryCommand : AbstractCommand, IChatTextCommandWithAction
     {
-
         private ITelegramBotClient botClient;
         private string text;
-
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ShowDictionaryCommand"/> class.
@@ -25,10 +23,9 @@ namespace SF.Mod11.TelegramBotEvents.Commands
         /// <param name="botClient">The bot client.</param>
         public ShowDictionaryCommand(ITelegramBotClient botClient)
         {
-            СommandText = "/dictionary";
+            СommandText = "/Dictionary";
             this.botClient = botClient;
         }
-
 
         /// <summary>
         /// Выводим словарь в таблицу
@@ -37,12 +34,12 @@ namespace SF.Mod11.TelegramBotEvents.Commands
         /// <returns>A bool.</returns>
         public bool DoAction(Conversation chat)
         {
-            if (chat.dictionary != null)
+            if (chat.Dictionary != null)
             {
                 StringBuilder sb = new StringBuilder();
                 sb.AppendLine("|РУССКИЙ|АНГЛИЙСКИЙ|ТЕМАТИКА");
                 sb.AppendLine("______________________________");
-                foreach (Word p in chat.dictionary.Values)
+                foreach (Word p in chat.Dictionary.Values)
                 {
                     // text = text  + p.Russian + " " + p.English + " " + p.Theme  ;
                     sb.AppendLine(" | " + p.Russian + " | " + p.English + " | " + p.Theme + " | ");

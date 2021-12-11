@@ -6,8 +6,15 @@ using System.Threading.Tasks;
 
 namespace SF.Mod11.TelegramBotEvents.Interfaces
 {
-    interface IChatTextCommand
+    /// <summary>
+    /// The chat text command.
+    /// </summary>
+   public interface IChatTextCommand
     {
+        /// <summary>
+        /// Returns the text.
+        /// </summary>
+        /// <returns>A string.</returns>
         string ReturnText();
     }
 }

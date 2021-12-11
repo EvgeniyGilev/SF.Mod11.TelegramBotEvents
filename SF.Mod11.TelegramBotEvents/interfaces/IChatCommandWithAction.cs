@@ -6,8 +6,16 @@ using System.Threading.Tasks;
 
 namespace SF.Mod11.TelegramBotEvents.Interfaces
 {
-    interface IChatTextCommandWithAction : IChatTextCommand
+    /// <summary>
+    /// Интерфейс команда с действием для DoAction 
+    /// </summary>
+    public interface IChatTextCommandWithAction : IChatTextCommand
     {
+        /// <summary>
+        /// Выполненяем действие и возвращаем выполнено оно или нет
+        /// </summary>
+        /// <param name="chat">The chat.</param>
+        /// <returns>A bool.</returns>
         bool DoAction(Conversation chat);
     }
 }

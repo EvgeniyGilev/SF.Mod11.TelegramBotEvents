@@ -10,7 +10,7 @@ namespace SF.Mod11.TelegramBotEvents.Interfaces
     /// <summary>
     /// Интерфейс для кнопок
     /// </summary>
-    interface IChatButtonCommand
+    public interface IChatButtonCommand
     {
         /// <summary>
         /// Returns the key board.
@@ -29,7 +29,5 @@ namespace SF.Mod11.TelegramBotEvents.Interfaces
         /// </summary>
         /// <returns>A string.</returns>
         string InformationalMessage();
-
     }
-
 }

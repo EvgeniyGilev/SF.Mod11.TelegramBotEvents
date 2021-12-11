@@ -32,9 +32,9 @@ namespace SF.Mod11.TelegramBotEvents.Commands
                 var message = chat.GetLastMessage();
                 var text = ClearMessageFromCommand(message);
 
-                if (chat.dictionary?.ContainsKey(text) == true)
+                if (chat.Dictionary?.ContainsKey(text) == true)
                 {
-                    chat.dictionary.Remove(text);
+                    chat.Dictionary.Remove(text);
                     return true;
                 }
             }
