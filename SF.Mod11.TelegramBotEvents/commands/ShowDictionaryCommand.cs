@@ -23,7 +23,7 @@ namespace SF.Mod11.TelegramBotEvents.Commands
         /// <param name="botClient">The bot client.</param>
         public ShowDictionaryCommand(ITelegramBotClient botClient)
         {
-            СommandText = "/Dictionary";
+            СommandText = "/dictionary";
             this.botClient = botClient;
         }
 
